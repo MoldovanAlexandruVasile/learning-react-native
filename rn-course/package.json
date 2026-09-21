@@ -1,0 +1,26 @@
+{
+  "name": "rn-course",
+  "version": "1.0.0",
+  "main": "index.tsx",
+  "dependencies": {
+    "expo": "~57.0.24",
+    "expo-status-bar": "~57.0.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-web": "^0.21.2"
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "@types/react": "~19.2.4",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3"
+  }
+}
