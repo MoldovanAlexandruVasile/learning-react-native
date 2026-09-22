@@ -1,9 +1,15 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import PrimaryButton from "../components/shared/PrimaryButton";
 import Input from "../components/shared/Input";
-import { useState } from "react";
+import { type FunctionComponent, useState } from "react";
+import { COLORS } from "../../constants/colors";
+import Title from "../components/shared/Title";
 
-const StartGameScreen = () => {
+type Props = {
+  onNumberSelected: (number: number) => void;
+};
+
+const StartGameScreen: FunctionComponent<Props> = ({ onNumberSelected }) => {
   const [enteredNumber, setEnteredNumber] = useState<string>("");
 
   const handleInputChange = (text: string) => {
@@ -15,22 +21,40 @@ const StartGameScreen = () => {
   };
 
   const handleConfirm = () => {
-    console.log(enteredNumber);
+    const parsedNumber = parseInt(enteredNumber);
+
+    if (isNaN(parsedNumber) || parsedNumber <= 0 || parsedNumber > 99) {
+      Alert.alert(
+        "Invalid number!",
+        "Please enter a valid number between 1 and 99.",
+        [
+          {
+            text: "Okay",
+            style: "destructive",
+            onPress: () => setEnteredNumber(""),
+          },
+        ],
+      );
+      return;
+    }
+
+    onNumberSelected(parsedNumber);
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <View style={styles.inputWrapper}>
-        <Input
-          placeholder="Enter a number"
-          value={enteredNumber}
-          onChangeText={handleInputChange}
-        />
-      </View>
+    <View>
+      <Title>Guess my number</Title>
+      <View style={styles.inputContainer}>
+        <Title>Enter a number</Title>
 
-      <View style={styles.buttonsContainer}>
-        <PrimaryButton onPress={handleReset}>Reset</PrimaryButton>
-        <PrimaryButton onPress={handleConfirm}>Confirm</PrimaryButton>
+        <View style={styles.inputWrapper}>
+          <Input value={enteredNumber} onChangeText={handleInputChange} />
+        </View>
+
+        <View style={styles.buttonsContainer}>
+          <PrimaryButton onPress={handleReset}>Reset</PrimaryButton>
+          <PrimaryButton onPress={handleConfirm}>Confirm</PrimaryButton>
+        </View>
       </View>
     </View>
   );
@@ -38,7 +62,7 @@ const StartGameScreen = () => {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    backgroundColor: "#4e0329",
+    backgroundColor: COLORS.PRIMARY800,
     padding: 16,
     borderRadius: 8,
     marginHorizontal: 16,

@@ -1,8 +1,9 @@
 import { type FunctionComponent } from "react";
 import { TextInput, StyleSheet } from "react-native";
+import { COLORS } from "../../../constants/colors";
 
 type Props = {
-  placeholder: string;
+  placeholder?: string;
   value: string;
   onChangeText: (text: string) => void;
 };
@@ -31,9 +32,9 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     fontSize: 32,
-    borderBottomColor: "#ddb52f",
+    borderBottomColor: COLORS.ACCENT500,
     borderBottomWidth: 2,
-    color: "#ddb52f",
+    color: COLORS.ACCENT500,
     marginVertical: 8,
     fontWeight: "bold",
     textAlign: "center",

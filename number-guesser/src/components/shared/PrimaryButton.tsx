@@ -1,5 +1,6 @@
 import { PropsWithChildren, type FunctionComponent } from "react";
 import { Text, View, StyleSheet, Pressable } from "react-native";
+import { COLORS } from "../../../constants/colors";
 
 type ParentProps = {
   onPress: () => void;
@@ -8,15 +9,11 @@ type ParentProps = {
 type Props = ParentProps & PropsWithChildren;
 
 const PrimaryButton: FunctionComponent<Props> = ({ children, onPress }) => {
-  const handlePress = () => {
-    onPress();
-  };
-
   return (
     <View style={styles.outterContainer}>
       <Pressable
-        onPress={handlePress}
-        android_ripple={{ color: "#640233" }}
+        onPress={onPress}
+        android_ripple={{ color: COLORS.PRIMARY600 }}
         style={({ pressed }) => [
           styles.innerContainer,
           pressed && { opacity: 0.75 },
@@ -37,7 +34,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   innerContainer: {
-    backgroundColor: "#72063c",
+    backgroundColor: COLORS.PRIMARY500,
     paddingVertical: 8,
     paddingHorizontal: 16,
     elevation: 4,
@@ -47,6 +44,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
   },
   text: {
+    fontFamily: "open-sans",
     color: "white",
     textAlign: "center",
   },
