@@ -1,4 +1,12 @@
-import { View, Image, StyleSheet, Text } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  Text,
+  Dimensions,
+  useWindowDimensions,
+  ScrollView,
+} from "react-native";
 import Title from "../components/shared/Title";
 import { COLORS } from "../../constants/colors";
 import PrimaryButton from "../components/shared/PrimaryButton";
@@ -15,39 +23,57 @@ const GameOverScreen: FunctionComponent<Props> = ({
   userNumber,
   onStartNewGame,
 }) => {
+  const { height, width } = useWindowDimensions();
+
+  let imageSize = 300;
+  if (width > height) {
+    imageSize = height / 3;
+  }
+
+  const imageStyles = {
+    height: imageSize,
+    width: imageSize,
+    borderRadius: imageSize / 2,
+  };
+
   return (
-    <View>
-      <Title>Game over</Title>
+    <ScrollView style={styles.screen}>
+      <View>
+        <Title>Game over</Title>
 
-      <View style={styles.imageWrapper}>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/success.png")}
-        />
+        <View style={[styles.imageWrapper, imageStyles]}>
+          <Image
+            style={styles.image}
+            source={require("../../assets/images/success.png")}
+          />
+        </View>
+
+        <Text style={styles.summaryText}>
+          Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text>{" "}
+          rounds to guess the number{" "}
+          <Text style={styles.highlight}>{userNumber}</Text>
+        </Text>
+
+        <View style={styles.buttonsContainer}>
+          <PrimaryButton onPress={onStartNewGame}>Start new game</PrimaryButton>
+        </View>
       </View>
-
-      <Text style={styles.summaryText}>
-        Your phone needed <Text style={styles.highlight}>{roundsNumber}</Text>{" "}
-        rounds to guess the number{" "}
-        <Text style={styles.highlight}>{userNumber}</Text>
-      </Text>
-
-      <View style={styles.buttonsContainer}>
-        <PrimaryButton onPress={onStartNewGame}>Start new game</PrimaryButton>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 
+const deviceWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   imageWrapper: {
-    borderRadius: 200,
     margin: 8,
     overflow: "hidden",
-    width: 400,
-    height: 400,
     borderWidth: 3,
     borderColor: COLORS.PRIMARY800,
+    alignSelf: "center",
   },
   image: {
     width: "100%",

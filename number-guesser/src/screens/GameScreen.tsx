@@ -1,4 +1,4 @@
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert, useWindowDimensions } from "react-native";
 import Title from "../components/shared/Title";
 import { FunctionComponent, useEffect, useState } from "react";
 import NumberContainer from "../components/game-screen/NumberContainer";
@@ -30,6 +30,8 @@ const GameScreen: FunctionComponent<Props> = ({
   onGameOver,
   onIncreaseRounds,
 }) => {
+  const { width, height } = useWindowDimensions();
+
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [guessRounds, setGuesRounds] = useState([initialGuess]);
@@ -72,9 +74,8 @@ const GameScreen: FunctionComponent<Props> = ({
     }
   }, [currentGuess, userNumber, onGameOver]);
 
-  return (
-    <View style={styles.screen}>
-      <Title>Opponent's guess</Title>
+  let content = (
+    <>
       <NumberContainer>{currentGuess}</NumberContainer>
 
       <View style={styles.controls}>
@@ -89,6 +90,32 @@ const GameScreen: FunctionComponent<Props> = ({
           </PrimaryButton>
         </View>
       </View>
+    </>
+  );
+
+  console.log({ width, height });
+
+  if (width > height) {
+    content = (
+      <View style={styles.landscape}>
+        <PrimaryButton onPress={nextGuessHandler("lower")}>
+          <Ionicons name="arrow-down" size={24} color="white" />
+        </PrimaryButton>
+
+        <NumberContainer>{currentGuess}</NumberContainer>
+
+        <PrimaryButton onPress={nextGuessHandler("greater")}>
+          <Ionicons name="arrow-up" size={24} color="white" />
+        </PrimaryButton>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Title>Opponent's guess</Title>
+
+      {content}
 
       <GuessRounds rounds={guessRounds} />
     </View>
@@ -99,6 +126,12 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 12,
+    alignItems: "center",
+  },
+  landscape: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
   },
   controls: {
     alignItems: "center",

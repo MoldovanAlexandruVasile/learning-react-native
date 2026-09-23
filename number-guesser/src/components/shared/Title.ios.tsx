@@ -1,5 +1,5 @@
 import { FunctionComponent, PropsWithChildren } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import { COLORS } from "../../../constants/colors";
 
 const Title: FunctionComponent<PropsWithChildren> = ({ children }) => {
@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
     color: COLORS.ACCENT500,
     textAlign: "center",
     maxWidth: "80%",
+    // borderWidth: Platform.select({ ios: 2, android: 0 }),
+    borderWidth: 2,
+    borderColor: "blue",
     borderRadius: 24,
     paddingHorizontal: 16,
     paddingVertical: 4,

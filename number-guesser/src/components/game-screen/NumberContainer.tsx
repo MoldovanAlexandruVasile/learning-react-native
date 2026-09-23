@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Dimensions } from "react-native";
 import { COLORS } from "../../../constants/colors";
 
 const NumberContainer: FunctionComponent<{ children: React.ReactNode }> = ({
@@ -12,12 +12,14 @@ const NumberContainer: FunctionComponent<{ children: React.ReactNode }> = ({
   );
 };
 
+const deviceWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   container: {
     borderWidth: 4,
     borderColor: COLORS.ACCENT500,
     borderRadius: 8,
-    padding: 24,
+    padding: deviceWidth < 380 ? 12 : 24,
     alignItems: "center",
     justifyContent: "center",
   },
