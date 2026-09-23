@@ -24,7 +24,6 @@ export default function App() {
             contentStyle: { backgroundColor: COLORS.APP_BACKGROUND },
           }}
         >
-          IP
           <Stack.Screen
             name="MealsCategories"
             options={{ title: "Categories" }}
