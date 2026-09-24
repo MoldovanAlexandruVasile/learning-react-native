@@ -7,6 +7,7 @@ import CategoryMealsScreen from "./screens/CategoryMealsScreen";
 import { SCREEN, StackParamList } from "./types/navigation";
 import { COLORS } from "./assets/styles/colors";
 import MealDetailsScreen from "./screens/MealDetailsScreen";
+import DrawerNavigator from "./DrawerNavigator";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -27,12 +28,8 @@ export default function App() {
         >
           <Stack.Screen
             name={SCREEN.MEALS_CATEGORIES}
-            options={{ title: "Categories" }}
-            component={() => (
-              <ScreenWrapper>
-                <CategoriesScreen />
-              </ScreenWrapper>
-            )}
+            options={{ headerShown: false }}
+            component={DrawerNavigator}
           />
           <Stack.Screen
             name={SCREEN.MEAL_OVERVIEW}
