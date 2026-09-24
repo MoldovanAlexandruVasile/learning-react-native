@@ -1,18 +1,30 @@
-import { FunctionComponent } from "react";
-import { View, Text, FlatList } from "react-native";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { StackParamList } from "../types/navigation";
+import { FunctionComponent, useEffect } from "react";
+import { View, FlatList } from "react-native";
+
 import { MEALS } from "../mocks/data.mock";
 import Meal from "../models/meal";
 import MealItem from "../components/MealItem";
+import { useNavigation } from "../utils/use-navigation";
+import { useRoute } from "../utils/use-route";
+import { SCREEN } from "../types/navigation";
 
 const CategoryMealsScreen: FunctionComponent = () => {
-  const route = useRoute<RouteProp<StackParamList, "MealOverview">>();
-  const { category } = route.params;
+  const { setOptions } = useNavigation();
+  const route = useRoute<typeof SCREEN.MEAL_OVERVIEW>();
+
+  const category = route.params?.category;
+
+  if (!category) {
+    return null;
+  }
 
   const meals: Meal[] = MEALS.filter((meal) =>
     meal.categoryIds.includes(category.id),
   );
+
+  useEffect(() => {
+    setOptions({ title: category.title });
+  }, [category.title, setOptions]);
 
   return (
     <View>

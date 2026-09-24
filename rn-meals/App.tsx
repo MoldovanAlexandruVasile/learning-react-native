@@ -4,8 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ScreenWrapper from "./screens/ScreenWrapper";
 import CategoryMealsScreen from "./screens/CategoryMealsScreen";
-import { StackParamList } from "./types/navigation";
+import { SCREEN, StackParamList } from "./types/navigation";
 import { COLORS } from "./assets/styles/colors";
+import MealDetailsScreen from "./screens/MealDetailsScreen";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -16,7 +17,7 @@ export default function App() {
 
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="MealsCategories"
+          initialRouteName={SCREEN.MEALS_CATEGORIES}
           screenOptions={{
             headerBackButtonDisplayMode: "minimal",
             headerStyle: { backgroundColor: COLORS.APP_BACKGROUND },
@@ -25,7 +26,7 @@ export default function App() {
           }}
         >
           <Stack.Screen
-            name="MealsCategories"
+            name={SCREEN.MEALS_CATEGORIES}
             options={{ title: "Categories" }}
             component={() => (
               <ScreenWrapper>
@@ -34,11 +35,25 @@ export default function App() {
             )}
           />
           <Stack.Screen
-            name="MealOverview"
-            options={{ title: "Meals" }}
+            name={SCREEN.MEAL_OVERVIEW}
+            // options={({ route, navigation }) => {
+            //   const category = route.params.category;
+
+            //   return {
+            //     title: category.title,
+            //   };
+            // }}
             component={() => (
               <ScreenWrapper>
                 <CategoryMealsScreen />
+              </ScreenWrapper>
+            )}
+          />
+          <Stack.Screen
+            name={SCREEN.MEAL_DETAILS}
+            component={() => (
+              <ScreenWrapper>
+                <MealDetailsScreen />
               </ScreenWrapper>
             )}
           />
