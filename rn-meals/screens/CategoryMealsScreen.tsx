@@ -7,6 +7,7 @@ import MealItem from "../components/MealItem";
 import { useNavigation } from "../utils/use-navigation";
 import { useRoute } from "../utils/use-route";
 import { SCREEN } from "../types/navigation";
+import MealsList from "../components/MealsList";
 
 const CategoryMealsScreen: FunctionComponent = () => {
   const { setOptions } = useNavigation();
@@ -26,15 +27,7 @@ const CategoryMealsScreen: FunctionComponent = () => {
     setOptions({ title: category.title });
   }, [category.title, setOptions]);
 
-  return (
-    <View>
-      <FlatList
-        data={meals}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <MealItem meal={item} />}
-      />
-    </View>
-  );
+  return <MealsList meals={meals} />;
 };
 
 export default CategoryMealsScreen;
