@@ -1,10 +1,15 @@
-import { FavoritesContext } from "../store/context/FavoriteMealsContext";
-import { useContext } from "react";
+// import { FavoritesContext } from "../store/context/FavoriteMealsContext";
+// import { useContext } from "react";
 import MealsList from "../components/MealsList";
 import { View, Text, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/redux/store";
 
 const FavoritesScreen = () => {
-  const { favorites } = useContext(FavoritesContext);
+  // const { favorites } = useContext(FavoritesContext);
+  const favorites = useSelector(
+    (state: RootState) => state.favoriteMeals.meals,
+  );
 
   if (!favorites.length) {
     return (
