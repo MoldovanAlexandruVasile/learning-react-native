@@ -8,19 +8,30 @@ import {
 } from "react-native";
 import { useRoute } from "../utils/use-route";
 import { SCREEN } from "../types/navigation";
-import { useEffect, useLayoutEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import { useNavigation } from "../utils/use-navigation";
 import MealDetails from "../components/MealDetails";
 import IconButton from "../components/IconButton";
+import { FavoritesContext } from "../store/context/FavoriteMealsContext";
 
 const MealDetailsScreen = () => {
   const { setOptions } = useNavigation();
   const { params } = useRoute<typeof SCREEN.MEAL_DETAILS>();
 
+  const { favorites, addFavorite, removeFavorite } =
+    useContext(FavoritesContext);
+
   const meal = params?.meal;
 
+  const mealIsFavorite =
+    favorites.findIndex((fav) => fav.id === meal.id) !== -1;
+
   const handlePress = () => {
-    console.log("pressed");
+    if (mealIsFavorite) {
+      removeFavorite(meal.id);
+    } else {
+      addFavorite(meal);
+    }
   };
 
   useEffect(() => {
@@ -29,9 +40,14 @@ const MealDetailsScreen = () => {
 
   useLayoutEffect(() => {
     setOptions({
-      headerRight: () => <IconButton name="star" onPress={handlePress} />,
+      headerRight: () => (
+        <IconButton
+          name={!!mealIsFavorite ? "star" : "star-outline"}
+          onPress={handlePress}
+        />
+      ),
     });
-  }, [setOptions]);
+  }, [setOptions, mealIsFavorite]);
 
   return (
     <View style={styles.root}>

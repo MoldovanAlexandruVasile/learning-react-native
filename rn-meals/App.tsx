@@ -8,6 +8,7 @@ import { SCREEN, StackParamList } from "./types/navigation";
 import { COLORS } from "./assets/styles/colors";
 import MealDetailsScreen from "./screens/MealDetailsScreen";
 import DrawerNavigator from "./DrawerNavigator";
+import { FavoritesContextProvider } from "./store/context/FavoriteMealsContext";
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -16,46 +17,48 @@ export default function App() {
     <>
       <StatusBar style="light" />
 
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={SCREEN.MEALS_CATEGORIES}
-          screenOptions={{
-            headerBackButtonDisplayMode: "minimal",
-            headerStyle: { backgroundColor: COLORS.APP_BACKGROUND },
-            headerTintColor: "white",
-            contentStyle: { backgroundColor: COLORS.APP_BACKGROUND },
-          }}
-        >
-          <Stack.Screen
-            name={SCREEN.MEALS_CATEGORIES}
-            options={{ headerShown: false }}
-            component={DrawerNavigator}
-          />
-          <Stack.Screen
-            name={SCREEN.MEAL_OVERVIEW}
-            // options={({ route, navigation }) => {
-            //   const category = route.params.category;
+      <FavoritesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName={SCREEN.MEALS_CATEGORIES}
+            screenOptions={{
+              headerBackButtonDisplayMode: "minimal",
+              headerStyle: { backgroundColor: COLORS.APP_BACKGROUND },
+              headerTintColor: "white",
+              contentStyle: { backgroundColor: COLORS.APP_BACKGROUND },
+            }}
+          >
+            <Stack.Screen
+              name={SCREEN.MEALS_CATEGORIES}
+              options={{ headerShown: false }}
+              component={DrawerNavigator}
+            />
+            <Stack.Screen
+              name={SCREEN.MEAL_OVERVIEW}
+              // options={({ route, navigation }) => {
+              //   const category = route.params.category;
 
-            //   return {
-            //     title: category.title,
-            //   };
-            // }}
-            component={() => (
-              <ScreenWrapper>
-                <CategoryMealsScreen />
-              </ScreenWrapper>
-            )}
-          />
-          <Stack.Screen
-            name={SCREEN.MEAL_DETAILS}
-            component={() => (
-              <ScreenWrapper>
-                <MealDetailsScreen />
-              </ScreenWrapper>
-            )}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+              //   return {
+              //     title: category.title,
+              //   };
+              // }}
+              component={() => (
+                <ScreenWrapper>
+                  <CategoryMealsScreen />
+                </ScreenWrapper>
+              )}
+            />
+            <Stack.Screen
+              name={SCREEN.MEAL_DETAILS}
+              component={() => (
+                <ScreenWrapper>
+                  <MealDetailsScreen />
+                </ScreenWrapper>
+              )}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavoritesContextProvider>
     </>
   );
 }
